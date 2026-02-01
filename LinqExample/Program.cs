@@ -11,3 +11,15 @@ List<Employee> employees = new List<Employee>
     new Employee { Id = 4, Name = "D", Job = "Manager", City = "Boston" },
     new Employee { Id = 5, Name = "E", Job = "Manager", City = "New York" }
 };
+
+// where manager
+//var managers = employees.Where(e => e.Job == "Manager");
+//foreach (var manager in managers)
+//{
+//    Console.WriteLine($"{manager.Name} - {manager.Job} - {manager.City}");
+//}
+
+IEnumerable<Employee> managers = employees.Where(e => e.Job == "Manager");
+
+IEnumerable<Employee> bostonManagers = employees.Where(e => e.Job == "Manager" && e.City == "Boston");
+
