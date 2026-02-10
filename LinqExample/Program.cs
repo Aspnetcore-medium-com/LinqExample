@@ -50,8 +50,16 @@ students.Where(x => x.IsActive && enrollments.Any(e => e.StudentId == x.Id)).ToL
 Console.WriteLine("active but not enrolled");
 students.Where(x => x.IsActive && !enrollments.Any(e => e.StudentId == x.Id)).ToList().ForEach(x => Console.WriteLine($"{x.Name}"));
 
+//each class get top scorer
+Console.WriteLine("top scorer");
+var maxGrp = students.GroupBy(x => x.Class).Select(g => new { cla = g.Key, max = g.Max(y => y.Marks) });
+foreach (var group in maxGrp)
+{
+    Console.WriteLine($"{group.cla} {group.max}"); 
+}
 
-
+//marks above class average
+students.GroupBy(x => x.Class).Select(x => )
 //Get names of active students who scored more than 70 marks, ordered by marks descending.
 students.Where(s => s.IsActive  && s.Marks > 70).OrderByDescending(p => p.Marks).ToList().ForEach(x => Console.WriteLine($"id: {x.Id} name: {x.Name} marks: {x.Marks} active: {x.IsActive}"));
 //Get a list of anonymous objects containing Name and Marks for students in Class 10A.
