@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using LinqExample;
 using System.Collections.Immutable;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
@@ -36,6 +37,20 @@ students.Where(x => !enrollments.Any(e => e.StudentId == x.Id)).ToList().ForEach
 
 students.Join(enrollments,(stu) => stu.Id, (enr) => enr.StudentId , (students,enrollments) => new { name = students.Name, marks = students.Marks, subject = enrollments.Subject}).Where(x => x.subject == "Maths").ToList().ForEach(x => Console.WriteLine($"name {x.name} subject {x.subject} mark {x.marks}"));
 Console.WriteLine("----");
+
+//distinct classes
+Console.WriteLine("distinct");
+students.DistinctBy(x => x.Class).ToList().ForEach(x => Console.WriteLine( $"{x.Name} name {x.Class}"));
+
+//active and enrolled in any subjext
+Console.WriteLine("active and enrolled");
+students.Where(x => x.IsActive && enrollments.Any(e => e.StudentId == x.Id)).ToList().ForEach(x => Console.WriteLine($"{x.Name}"));
+
+// active but not enrolled
+Console.WriteLine("active but not enrolled");
+students.Where(x => x.IsActive && !enrollments.Any(e => e.StudentId == x.Id)).ToList().ForEach(x => Console.WriteLine($"{x.Name}"));
+
+
 
 //Get names of active students who scored more than 70 marks, ordered by marks descending.
 students.Where(s => s.IsActive  && s.Marks > 70).OrderByDescending(p => p.Marks).ToList().ForEach(x => Console.WriteLine($"id: {x.Id} name: {x.Name} marks: {x.Marks} active: {x.IsActive}"));
